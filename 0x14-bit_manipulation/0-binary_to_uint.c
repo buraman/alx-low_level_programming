@@ -1,29 +1,45 @@
+#include <stdlib.h>
 #include "holberton.h"
-
 /**
- * binary_to_uint - converts a binary number to an unsigned int.
- * @b: pointer to a string containing a binary number
+ * binary_to_uint -  converts a binary number to an unsigned int.
+ * @b: Pointer to string that contains a binary number
  *
- * Return: unsigned int with decimal value of binsry number, or 0 if error
+ * Return: Decimal number or 0 if error.
  */
 unsigned int binary_to_uint(const char *b)
 {
-	int i;
-	unsigned int num;
+	unsigned int len = 0, result = 0;
+	int i = 0, j = 0;
 
-	num = 0;
-	if (!b)
+	if (b == NULL)
 		return (0);
-	for (i = 0; b[i] != '\0'; i++)
+
+	while (*(b + len) != '\0')
+		len++;
+
+	for (i = (len - 1), j = 0; i >= 0; i--, j++)
 	{
 		if (b[i] != '0' && b[i] != '1')
 			return (0);
+
+		result += (b[i] - '0') * _pow_recursion(2, j);
 	}
-	for (i = 0; b[i] != '\0'; i++)
-	{
-		num <<= 1;
-		if (b[i] == '1')
-			num += 1;
-	}
-	return (num);
+
+	return (result);
+}
+
+/**
+ * _pow_recursion - Function that returns the factorial of a given number
+ * @x: Base
+ * @y: Power
+ *
+ * Return: Result of x raised to the power of y.
+ */
+int _pow_recursion(int x, int y)
+{
+	if (y == 0)
+		return (1);
+	else if (y < 0)
+		return (-1);
+	return (x * _pow_recursion(x, y - 1));
 }
